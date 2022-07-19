@@ -1,0 +1,2 @@
+# ransomware
+Repositorio Ransoware
