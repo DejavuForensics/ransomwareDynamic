@@ -1,0 +1,2749 @@
+{
+    "info": {
+        "added": 1644803602.821807, 
+        "started": 1644804914.050457, 
+        "duration": 580, 
+        "ended": 1644805494.152514, 
+        "owner": null, 
+        "score": 0.6, 
+        "id": 2748820, 
+        "category": "file", 
+        "git": {
+            "head": "", 
+            "fetch_head": ""
+        }, 
+        "monitor": null, 
+        "package": "exe", 
+        "route": "internet", 
+        "custom": null, 
+        "machine": {
+            "status": "stopped", 
+            "name": "win7x647", 
+            "label": "win7x647", 
+            "platform": "windows", 
+            "manager": "VirtualBox", 
+            "started_on": "2022-02-14 02:15:14", 
+            "shutdown_on": "2022-02-14 02:24:53"
+        }, 
+        "platform": "windows", 
+        "version": "2.0.7", 
+        "options": "procmemdump=yes,route=internet"
+    }, 
+    "signatures": [
+        {
+            "families": [], 
+            "description": "Yara rules detected for file", 
+            "severity": 1, 
+            "ttp": {}, 
+            "markcount": 3, 
+            "references": [], 
+            "marks": [
+                {
+                    "type": "generic", 
+                    "description": "(no description)", 
+                    "rule": "APT32_KerrDown"
+                }, 
+                {
+                    "type": "generic", 
+                    "description": "Communications over RAW socket", 
+                    "rule": "network_tcp_socket"
+                }, 
+                {
+                    "type": "generic", 
+                    "description": "Communications use DNS", 
+                    "rule": "network_dns"
+                }
+            ], 
+            "name": "file_yara"
+        }, 
+        {
+            "families": [], 
+            "description": "This executable has a PDB path", 
+            "severity": 1, 
+            "ttp": {}, 
+            "markcount": 1, 
+            "references": [], 
+            "marks": [
+                {
+                    "category": "pdb_path", 
+                    "ioc": "nslookup.pdb", 
+                    "type": "ioc", 
+                    "description": null
+                }
+            ], 
+            "name": "has_pdb"
+        }, 
+        {
+            "families": [], 
+            "description": "The executable contains unknown PE section names indicative of a packer (could be a false positive)", 
+            "severity": 1, 
+            "ttp": {
+                "T1045": {
+                    "short": "Software Packing", 
+                    "long": "Software packing is a method of compressing or encrypting an executable. Packing an executable changes the file signature in an attempt to avoid signature-based detection. Most decompression techniques decompress the executable code in memory."
+                }
+            }, 
+            "markcount": 2, 
+            "references": [], 
+            "marks": [
+                {
+                    "category": "section", 
+                    "ioc": ".wpp_sf", 
+                    "type": "ioc", 
+                    "description": null
+                }, 
+                {
+                    "category": "section", 
+                    "ioc": ".didat", 
+                    "type": "ioc", 
+                    "description": null
+                }
+            ], 
+            "name": "pe_features"
+        }, 
+        {
+            "families": [], 
+            "description": "The file contains an unknown PE resource name possibly indicative of a packer", 
+            "severity": 1, 
+            "ttp": {
+                "T1045": {
+                    "short": "Software Packing", 
+                    "long": "Software packing is a method of compressing or encrypting an executable. Packing an executable changes the file signature in an attempt to avoid signature-based detection. Most decompression techniques decompress the executable code in memory."
+                }
+            }, 
+            "markcount": 1, 
+            "references": [], 
+            "marks": [
+                {
+                    "category": "resource name", 
+                    "ioc": "MUI", 
+                    "type": "ioc", 
+                    "description": null
+                }
+            ], 
+            "name": "pe_unknown_resource_name"
+        }
+    ], 
+    "target": {
+        "category": "file", 
+        "file": {
+            "mimetype": "application/x-dosexec", 
+            "yara": [
+                {
+                    "meta": {
+                        "Website": "https://www.deadbits.org", 
+                        "Repo": "https://github.com/deadbits/yara-rules", 
+                        "description": "(no description)", 
+                        "Author": "Adam M. Swanda", 
+                        "Date": "2019-08-08", 
+                        "Note": "List of samples used to create rule at end of file as block comment"
+                    }, 
+                    "name": "APT32_KerrDown", 
+                    "offsets": {
+                        "sec02": [
+                            [
+                                13456, 
+                                2
+                            ]
+                        ], 
+                        "sec03": [
+                            [
+                                13432, 
+                                1
+                            ]
+                        ], 
+                        "gfids": [
+                            [
+                                13384, 
+                                0
+                            ]
+                        ], 
+                        "sec01": [
+                            [
+                                13500, 
+                                3
+                            ]
+                        ], 
+                        "str02": [
+                            [
+                                68328, 
+                                6
+                            ]
+                        ], 
+                        "str05": [
+                            [
+                                68278, 
+                                4
+                            ]
+                        ], 
+                        "str06": [
+                            [
+                                68368, 
+                                5
+                            ]
+                        ]
+                    }, 
+                    "strings": [
+                        "LmdmaWRz", 
+                        "LnJkYXRhJHN4ZGF0YQ==", 
+                        "LnJkYXRhJHp6emRiZw==", 
+                        "LnhkYXRhJHg=", 
+                        "U2V0VW5oYW5kbGVkRXhjZXB0aW9uRmlsdGVy", 
+                        "UXVlcnlQZXJmb3JtYW5jZUNvdW50ZXI=", 
+                        "VGVybWluYXRlUHJvY2Vzcw=="
+                    ]
+                }, 
+                {
+                    "meta": {
+                        "version": "0.1", 
+                        "description": "Communications over RAW socket", 
+                        "author": "x0r"
+                    }, 
+                    "name": "network_tcp_socket", 
+                    "offsets": {
+                        "c3": [
+                            [
+                                11172, 
+                                3
+                            ]
+                        ], 
+                        "f1": [
+                            [
+                                68510, 
+                                0
+                            ]
+                        ], 
+                        "c6": [
+                            [
+                                9620, 
+                                1
+                            ], 
+                            [
+                                11100, 
+                                1
+                            ], 
+                            [
+                                11164, 
+                                1
+                            ]
+                        ], 
+                        "c2": [
+                            [
+                                9608, 
+                                2
+                            ], 
+                            [
+                                11080, 
+                                2
+                            ], 
+                            [
+                                11144, 
+                                2
+                            ]
+                        ]
+                    }, 
+                    "strings": [
+                        "V1MyXzMyLmRsbA==", 
+                        "Y29ubmVjdA==", 
+                        "c29ja2V0", 
+                        "c2VuZA=="
+                    ]
+                }, 
+                {
+                    "meta": {
+                        "version": "0.1", 
+                        "description": "Communications use DNS", 
+                        "author": "x0r"
+                    }, 
+                    "name": "network_dns", 
+                    "offsets": {
+                        "c3": [
+                            [
+                                68134, 
+                                3
+                            ]
+                        ], 
+                        "f2": [
+                            [
+                                68510, 
+                                2
+                            ]
+                        ], 
+                        "f3": [
+                            [
+                                68522, 
+                                0
+                            ]
+                        ], 
+                        "c6": [
+                            [
+                                68110, 
+                                1
+                            ]
+                        ]
+                    }, 
+                    "strings": [
+                        "RE5TQVBJLmRsbA==", 
+                        "RG5zUXVlcnk=", 
+                        "V1MyXzMyLmRsbA==", 
+                        "Z2V0YWRkcmluZm8="
+                    ]
+                }
+            ], 
+            "sha1": "94eef82037135c46afadd641c58f8d46e2399c2b", 
+            "name": "nslookup.exe", 
+            "type": "PE32 executable (console) Intel 80386, for MS Windows", 
+            "sha256": "531a1b65e4e3869d65d2eaf6b07c92a34dd6fe18ed9a647bd1a257ab3d0c1aeb", 
+            "urls": [], 
+            "crc32": "5AA28BE5", 
+            "path": "/srv/cuckoo/cwd/storage/binaries/531a1b65e4e3869d65d2eaf6b07c92a34dd6fe18ed9a647bd1a257ab3d0c1aeb", 
+            "ssdeep": null, 
+            "size": 77824, 
+            "sha512": "2bc9bb27fea55ed715f977223efd36999e22b1d86acf19a0715df65e15fd01023d7f12e63e83db792b5e2bf27b0824de542e486fbb183d5df7142b44ab59d089", 
+            "md5": "9d2eb13476b126cb61b12cdd03c7dca6"
+        }, 
+        "custom": null
+    }, 
+    "irma": {
+        "status": 0, 
+        "probes_finished": 16, 
+        "scan_id": "72220614-9eb8-4da6-b0b6-ffd17f6c617a", 
+        "parent_file_sha256": null, 
+        "file_infos": {
+            "mimetype": "PE32 executable (console) Intel 80386, for MS Windows", 
+            "sha1": "94eef82037135c46afadd641c58f8d46e2399c2b", 
+            "tags": [], 
+            "timestamp_first_scan": 1643995732.38, 
+            "size": 77824, 
+            "timestamp_last_scan": 1644798303.86, 
+            "sha256": "531a1b65e4e3869d65d2eaf6b07c92a34dd6fe18ed9a647bd1a257ab3d0c1aeb", 
+            "md5": "9d2eb13476b126cb61b12cdd03c7dca6"
+        }, 
+        "scan_date": 1644798295, 
+        "name": "531a1b65e4e3869d65d2eaf6b07c92a34dd6fe18ed9a647bd1a257ab3d0c1aeb", 
+        "other_results": [], 
+        "submitter": "cli", 
+        "probes_total": 16, 
+        "probe_results": {
+            "antivirus": {
+                "Avast Core Security (Linux)": {
+                    "status": 0, 
+                    "duration": 0.01, 
+                    "version": "3.0.3", 
+                    "results": null, 
+                    "virus_database_version": "unavailable"
+                }, 
+                "F-Secure Antivirus (Linux)": {
+                    "status": 0, 
+                    "duration": 5.73, 
+                    "version": "11.10", 
+                    "results": null, 
+                    "virus_database_version": "2022-02-04_03"
+                }, 
+                "Windows Defender (Windows)": {
+                    "status": 0, 
+                    "duration": 0.06, 
+                    "version": "1.1.18800.4", 
+                    "results": null, 
+                    "virus_database_version": "1.355.1049.0"
+                }, 
+                "Comodo Antivirus (Linux)": {
+                    "status": 0, 
+                    "duration": 2.15, 
+                    "version": "1.1.268025.1", 
+                    "results": null, 
+                    "virus_database_version": "2021-12-31"
+                }, 
+                "Kaspersky Antivirus (Win)": {
+                    "status": 0, 
+                    "duration": 0.58, 
+                    "version": "21.3", 
+                    "results": null, 
+                    "virus_database_version": "unavailable"
+                }, 
+                "ESET NOD32 Antivirus (Linux)": {
+                    "status": 0, 
+                    "duration": 4.41, 
+                    "version": "4.0.96", 
+                    "results": null, 
+                    "virus_database_version": "61ad92b8-1e6f6 (2022-02-04)"
+                }, 
+                "GData (Windows)": {
+                    "status": 0, 
+                    "duration": 0.22, 
+                    "version": "5.5.20197.1358", 
+                    "results": null, 
+                    "virus_database_version": "unavailable"
+                }, 
+                "Forticlient (Linux)": {
+                    "status": 0, 
+                    "duration": 3.05, 
+                    "version": "unavailable", 
+                    "results": null, 
+                    "virus_database_version": "unavailable"
+                }, 
+                "Avira (Windows)": {
+                    "status": 0, 
+                    "duration": 3.95, 
+                    "version": "8.3.64.66", 
+                    "results": null, 
+                    "virus_database_version": "8.19.1.122"
+                }, 
+                "eScan Antivirus (Linux)": {
+                    "status": 0, 
+                    "duration": 3.86, 
+                    "version": "7.0.21", 
+                    "results": null, 
+                    "virus_database_version": "7.91093 (04/02/2022)"
+                }, 
+                "McAfee CLI scanner (Linux)": {
+                    "status": 0, 
+                    "duration": 6.16, 
+                    "version": "6.0.6.653", 
+                    "results": null, 
+                    "virus_database_version": "10247"
+                }, 
+                "Sophos Anti-Virus (Linux)": {
+                    "status": 0, 
+                    "duration": 6.19, 
+                    "version": "5.85.0", 
+                    "results": null, 
+                    "virus_database_version": "5.90 (01 February 2022)"
+                }, 
+                "DrWeb Antivirus (Linux)": {
+                    "status": 0, 
+                    "duration": 0.18, 
+                    "version": "11.1.11.2110182032", 
+                    "results": null, 
+                    "virus_database_version": "unavailable"
+                }, 
+                "ClamAV (Linux)": {
+                    "status": 0, 
+                    "duration": 0.38, 
+                    "version": "0.103.5", 
+                    "results": null, 
+                    "virus_database_version": "26442"
+                }, 
+                "Bitdefender Antivirus (Linux)": {
+                    "status": 0, 
+                    "duration": 6.3, 
+                    "version": "7.90123", 
+                    "results": null, 
+                    "virus_database_version": null
+                }, 
+                "Emsisoft Commandline Scanner (Windows)": {
+                    "status": 0, 
+                    "duration": 0.2, 
+                    "version": "2021.10.0.11201", 
+                    "results": null, 
+                    "virus_database_version": "unavailable"
+                }
+            }
+        }, 
+        "path": "", 
+        "result_id": "0ef8325e-ce4e-4b98-982e-7c82325289ac", 
+        "file_sha256": "531a1b65e4e3869d65d2eaf6b07c92a34dd6fe18ed9a647bd1a257ab3d0c1aeb"
+    }, 
+    "suricata": {
+        "tls": [], 
+        "files": [], 
+        "alerts": [], 
+        "http": []
+    }, 
+    "virustotal": {
+        "scans": {
+            "Bkav": {
+                "detected": false, 
+                "version": "1.3.0.9899", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "Lionic": {
+                "detected": false, 
+                "version": "4.2", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "Elastic": {
+                "detected": false, 
+                "version": "4.0.32", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20211223"
+            }, 
+            "Cynet": {
+                "detected": false, 
+                "version": "4.0.0.27", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "CMC": {
+                "detected": false, 
+                "version": "2.10.2019.1", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20211026"
+            }, 
+            "CAT-QuickHeal": {
+                "detected": false, 
+                "version": "14.00", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "ALYac": {
+                "detected": false, 
+                "version": "1.1.3.1", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "Malwarebytes": {
+                "detected": false, 
+                "version": "4.2.2.27", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "Zillya": {
+                "detected": false, 
+                "version": "2.0.0.4554", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "Sangfor": {
+                "detected": false, 
+                "version": "2.9.0.0", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20211224"
+            }, 
+            "K7AntiVirus": {
+                "detected": false, 
+                "version": "11.242.40462", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "Alibaba": {
+                "detected": false, 
+                "version": "0.3.0.5", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20190527"
+            }, 
+            "K7GW": {
+                "detected": false, 
+                "version": "11.242.40460", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "CrowdStrike": {
+                "detected": false, 
+                "version": "1.0", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20210907"
+            }, 
+            "Baidu": {
+                "detected": false, 
+                "version": "1.0.0.2", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20190318"
+            }, 
+            "VirIT": {
+                "detected": false, 
+                "version": "9.5.116", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220120"
+            }, 
+            "Cyren": {
+                "detected": false, 
+                "version": "6.5.1.2", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "ESET-NOD32": {
+                "detected": false, 
+                "version": "24656", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "APEX": {
+                "detected": false, 
+                "version": "6.251", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220119"
+            }, 
+            "Avast": {
+                "detected": false, 
+                "version": "21.1.5827.0", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "ClamAV": {
+                "detected": false, 
+                "version": "0.104.2.0", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "Kaspersky": {
+                "detected": false, 
+                "version": "21.0.1.45", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "BitDefender": {
+                "detected": false, 
+                "version": "7.2", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "NANO-Antivirus": {
+                "detected": false, 
+                "version": "1.0.146.25520", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "SUPERAntiSpyware": {
+                "detected": false, 
+                "version": "5.6.0.1032", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220115"
+            }, 
+            "MicroWorld-eScan": {
+                "detected": false, 
+                "version": "14.0.409.0", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "Rising": {
+                "detected": false, 
+                "version": "25.0.0.27", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "Ad-Aware": {
+                "detected": false, 
+                "version": "3.0.21.193", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "Sophos": {
+                "detected": false, 
+                "version": "1.4.1.0", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "Comodo": {
+                "detected": false, 
+                "version": "34282", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "F-Secure": {
+                "detected": false, 
+                "version": "12.0.86.52", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "DrWeb": {
+                "detected": false, 
+                "version": "7.0.52.8270", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "VIPRE": {
+                "detected": false, 
+                "version": "98492", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220119"
+            }, 
+            "TrendMicro": {
+                "detected": false, 
+                "version": "11.0.0.1006", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "McAfee-GW-Edition": {
+                "detected": false, 
+                "version": "v2019.1.2+3728", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "FireEye": {
+                "detected": false, 
+                "version": "32.44.1.0", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "Emsisoft": {
+                "detected": false, 
+                "version": "2021.5.0.7597", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "Ikarus": {
+                "detected": false, 
+                "version": "0.1.5.2", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "Jiangmin": {
+                "detected": false, 
+                "version": "16.0.100", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220120"
+            }, 
+            "Webroot": {
+                "detected": false, 
+                "version": "1.0.0.403", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "Avira": {
+                "detected": false, 
+                "version": "8.3.3.12", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "Antiy-AVL": {
+                "detected": false, 
+                "version": "3.0.0.1", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "Kingsoft": {
+                "detected": false, 
+                "version": "2017.9.26.565", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "Microsoft": {
+                "detected": false, 
+                "version": "1.1.18800.4", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "Gridinsoft": {
+                "detected": false, 
+                "version": "1.0.70.172", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "Arcabit": {
+                "detected": false, 
+                "version": "1.0.0.889", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "ViRobot": {
+                "detected": false, 
+                "version": "2014.3.20.0", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "GData": {
+                "detected": false, 
+                "version": "A:25.32098B:27.25946", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "TACHYON": {
+                "detected": false, 
+                "version": "2022-01-21.02", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "AhnLab-V3": {
+                "detected": false, 
+                "version": "3.21.2.10258", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "Acronis": {
+                "detected": false, 
+                "version": "1.1.1.82", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20210512"
+            }, 
+            "McAfee": {
+                "detected": false, 
+                "version": "6.0.6.653", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "MAX": {
+                "detected": false, 
+                "version": "2019.9.16.1", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "VBA32": {
+                "detected": false, 
+                "version": "5.0.0", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "Cylance": {
+                "detected": false, 
+                "version": "2.3.1.101", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "Zoner": {
+                "detected": false, 
+                "version": "2.2.2.0", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220120"
+            }, 
+            "TrendMicro-HouseCall": {
+                "detected": false, 
+                "version": "10.0.0.1040", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "Tencent": {
+                "detected": false, 
+                "version": "1.0.0.1", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "Yandex": {
+                "detected": false, 
+                "version": "5.5.2.24", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "SentinelOne": {
+                "detected": false, 
+                "version": "7.0.0.7", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20211129"
+            }, 
+            "eGambit": {
+                "detected": false, 
+                "version": null, 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "Fortinet": {
+                "detected": false, 
+                "version": "6.2.142.0", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "BitDefenderTheta": {
+                "detected": false, 
+                "version": "7.2.37796.0", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220114"
+            }, 
+            "Cybereason": {
+                "detected": false, 
+                "version": "1.2.449", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20210330"
+            }, 
+            "Paloalto": {
+                "detected": false, 
+                "version": "1.0", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }, 
+            "MaxSecure": {
+                "detected": false, 
+                "version": "1.0.0.1", 
+                "result": null, 
+                "normalized": [], 
+                "update": "20220121"
+            }
+        }, 
+        "scan_id": "531a1b65e4e3869d65d2eaf6b07c92a34dd6fe18ed9a647bd1a257ab3d0c1aeb-1642765021", 
+        "sha1": "94eef82037135c46afadd641c58f8d46e2399c2b", 
+        "resource": "9d2eb13476b126cb61b12cdd03c7dca6", 
+        "response_code": 1, 
+        "scan_date": "2022-01-21 11:37:01", 
+        "permalink": "https://www.virustotal.com/gui/file/531a1b65e4e3869d65d2eaf6b07c92a34dd6fe18ed9a647bd1a257ab3d0c1aeb/detection/f-531a1b65e4e3869d65d2eaf6b07c92a34dd6fe18ed9a647bd1a257ab3d0c1aeb-1642765021", 
+        "summary": {
+            "positives": 0, 
+            "permalink": "https://www.virustotal.com/gui/file/531a1b65e4e3869d65d2eaf6b07c92a34dd6fe18ed9a647bd1a257ab3d0c1aeb/detection/f-531a1b65e4e3869d65d2eaf6b07c92a34dd6fe18ed9a647bd1a257ab3d0c1aeb-1642765021", 
+            "scan_date": "2022-01-21 11:37:01"
+        }, 
+        "sha256": "531a1b65e4e3869d65d2eaf6b07c92a34dd6fe18ed9a647bd1a257ab3d0c1aeb", 
+        "normalized": [], 
+        "total": 66, 
+        "positives": 0, 
+        "verbose_msg": "Scan finished, information embedded", 
+        "md5": "9d2eb13476b126cb61b12cdd03c7dca6"
+    }, 
+    "network": {
+        "udp": [], 
+        "dns_servers": [], 
+        "http": [], 
+        "smtp": [], 
+        "tcp": [], 
+        "geoinfo": {}, 
+        "mitm": [], 
+        "https_ex": [], 
+        "http_ex": [], 
+        "sorted_pcap_sha256": "6558eb3e63e90031d80cbaa813ba20de643b2762398155bfb95852fff8d814c1", 
+        "icmp": [], 
+        "tls": [], 
+        "dead_hosts": [], 
+        "smtp_ex": [], 
+        "hosts": [], 
+        "pcap_sha256": "f42cebe51b8266c903b9f17cabcd15d5a8ac1620aad46f0eebeba7ef2a7bb5f2", 
+        "dns": [], 
+        "domains": [], 
+        "irc": []
+    }, 
+    "resubmit": {
+        "resubmit_ids": []
+    }, 
+    "static": {
+        "pdb_path": "nslookup.pdb", 
+        "pe_imports": [
+            {
+                "imports": [
+                    {
+                        "name": "strncpy_s", 
+                        "address": "0x4130f8"
+                    }, 
+                    {
+                        "name": "putc", 
+                        "address": "0x4130fc"
+                    }, 
+                    {
+                        "name": "strcpy_s", 
+                        "address": "0x413100"
+                    }, 
+                    {
+                        "name": "_except_handler4_common", 
+                        "address": "0x413104"
+                    }, 
+                    {
+                        "name": "exit", 
+                        "address": "0x413108"
+                    }, 
+                    {
+                        "name": "_vsnprintf", 
+                        "address": "0x41310c"
+                    }, 
+                    {
+                        "name": "isspace", 
+                        "address": "0x413110"
+                    }, 
+                    {
+                        "name": "fputs", 
+                        "address": "0x413114"
+                    }, 
+                    {
+                        "name": "strcat_s", 
+                        "address": "0x413118"
+                    }, 
+                    {
+                        "name": "malloc", 
+                        "address": "0x41311c"
+                    }, 
+                    {
+                        "name": "?terminate@@YAXXZ", 
+                        "address": "0x413120"
+                    }, 
+                    {
+                        "name": "memcpy", 
+                        "address": "0x413124"
+                    }, 
+                    {
+                        "name": "strncmp", 
+                        "address": "0x413128"
+                    }, 
+                    {
+                        "name": "gmtime", 
+                        "address": "0x41312c"
+                    }, 
+                    {
+                        "name": "putchar", 
+                        "address": "0x413130"
+                    }, 
+                    {
+                        "name": "fread", 
+                        "address": "0x413134"
+                    }, 
+                    {
+                        "name": "free", 
+                        "address": "0x413138"
+                    }, 
+                    {
+                        "name": "_initterm", 
+                        "address": "0x41313c"
+                    }, 
+                    {
+                        "name": "__setusermatherr", 
+                        "address": "0x413140"
+                    }, 
+                    {
+                        "name": "__p__fmode", 
+                        "address": "0x413144"
+                    }, 
+                    {
+                        "name": "_cexit", 
+                        "address": "0x413148"
+                    }, 
+                    {
+                        "name": "sprintf_s", 
+                        "address": "0x41314c"
+                    }, 
+                    {
+                        "name": "fflush", 
+                        "address": "0x413150"
+                    }, 
+                    {
+                        "name": "_exit", 
+                        "address": "0x413154"
+                    }, 
+                    {
+                        "name": "fopen", 
+                        "address": "0x413158"
+                    }, 
+                    {
+                        "name": "__set_app_type", 
+                        "address": "0x41315c"
+                    }, 
+                    {
+                        "name": "__getmainargs", 
+                        "address": "0x413160"
+                    }, 
+                    {
+                        "name": "_amsg_exit", 
+                        "address": "0x413164"
+                    }, 
+                    {
+                        "name": "_strnicmp", 
+                        "address": "0x413168"
+                    }, 
+                    {
+                        "name": "printf", 
+                        "address": "0x41316c"
+                    }, 
+                    {
+                        "name": "fwrite", 
+                        "address": "0x413170"
+                    }, 
+                    {
+                        "name": "fclose", 
+                        "address": "0x413174"
+                    }, 
+                    {
+                        "name": "perror", 
+                        "address": "0x413178"
+                    }, 
+                    {
+                        "name": "sscanf_s", 
+                        "address": "0x41317c"
+                    }, 
+                    {
+                        "name": "system", 
+                        "address": "0x413180"
+                    }, 
+                    {
+                        "name": "__p__commode", 
+                        "address": "0x413184"
+                    }, 
+                    {
+                        "name": "fprintf", 
+                        "address": "0x413188"
+                    }, 
+                    {
+                        "name": "getc", 
+                        "address": "0x41318c"
+                    }, 
+                    {
+                        "name": "strchr", 
+                        "address": "0x413190"
+                    }, 
+                    {
+                        "name": "_controlfp", 
+                        "address": "0x413194"
+                    }, 
+                    {
+                        "name": "fputc", 
+                        "address": "0x413198"
+                    }, 
+                    {
+                        "name": "_XcptFilter", 
+                        "address": "0x41319c"
+                    }, 
+                    {
+                        "name": "_write", 
+                        "address": "0x4131a0"
+                    }, 
+                    {
+                        "name": "fgets", 
+                        "address": "0x4131a4"
+                    }, 
+                    {
+                        "name": "realloc", 
+                        "address": "0x4131a8"
+                    }, 
+                    {
+                        "name": "ferror", 
+                        "address": "0x4131ac"
+                    }, 
+                    {
+                        "name": "getenv", 
+                        "address": "0x4131b0"
+                    }, 
+                    {
+                        "name": "__iob_func", 
+                        "address": "0x4131b4"
+                    }, 
+                    {
+                        "name": "_vsnprintf_s", 
+                        "address": "0x4131b8"
+                    }, 
+                    {
+                        "name": "memset", 
+                        "address": "0x4131bc"
+                    }
+                ], 
+                "dll": "msvcrt.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "HeapSetInformation", 
+                        "address": "0x413088"
+                    }, 
+                    {
+                        "name": "HeapFree", 
+                        "address": "0x41308c"
+                    }, 
+                    {
+                        "name": "GetProcessHeap", 
+                        "address": "0x413090"
+                    }, 
+                    {
+                        "name": "HeapAlloc", 
+                        "address": "0x413094"
+                    }
+                ], 
+                "dll": "api-ms-win-core-heap-l1-1-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "select", 
+                        "address": "0x413014"
+                    }, 
+                    {
+                        "name": "htonl", 
+                        "address": "0x413018"
+                    }, 
+                    {
+                        "name": "gethostname", 
+                        "address": "0x41301c"
+                    }, 
+                    {
+                        "name": "getaddrinfo", 
+                        "address": "0x413020"
+                    }, 
+                    {
+                        "name": "freeaddrinfo", 
+                        "address": "0x413024"
+                    }, 
+                    {
+                        "name": "WSAStartup", 
+                        "address": "0x413028"
+                    }, 
+                    {
+                        "name": "closesocket", 
+                        "address": "0x41302c"
+                    }, 
+                    {
+                        "name": "send", 
+                        "address": "0x413030"
+                    }, 
+                    {
+                        "name": "socket", 
+                        "address": "0x413034"
+                    }, 
+                    {
+                        "name": "connect", 
+                        "address": "0x413038"
+                    }, 
+                    {
+                        "name": "recv", 
+                        "address": "0x41303c"
+                    }, 
+                    {
+                        "name": "WSAGetLastError", 
+                        "address": "0x413040"
+                    }, 
+                    {
+                        "name": "getprotobynumber", 
+                        "address": "0x413044"
+                    }, 
+                    {
+                        "name": "getservbyport", 
+                        "address": "0x413048"
+                    }, 
+                    {
+                        "name": "ntohs", 
+                        "address": "0x41304c"
+                    }, 
+                    {
+                        "name": "inet_ntoa", 
+                        "address": "0x413050"
+                    }, 
+                    {
+                        "name": "htons", 
+                        "address": "0x413054"
+                    }
+                ], 
+                "dll": "WS2_32.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "DnsQueryConfigAllocEx", 
+                        "address": "0x413000"
+                    }, 
+                    {
+                        "name": "DnsFreeConfigStructure", 
+                        "address": "0x413004"
+                    }
+                ], 
+                "dll": "DNSAPI.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "SetThreadUILanguage", 
+                        "address": "0x4130ac"
+                    }, 
+                    {
+                        "name": "FormatMessageA", 
+                        "address": "0x4130b0"
+                    }
+                ], 
+                "dll": "api-ms-win-core-localization-l1-2-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "SetUnhandledExceptionFilter", 
+                        "address": "0x413074"
+                    }, 
+                    {
+                        "name": "UnhandledExceptionFilter", 
+                        "address": "0x413078"
+                    }, 
+                    {
+                        "name": "GetLastError", 
+                        "address": "0x41307c"
+                    }, 
+                    {
+                        "name": "SetLastError", 
+                        "address": "0x413080"
+                    }
+                ], 
+                "dll": "api-ms-win-core-errorhandling-l1-1-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "RegCloseKey", 
+                        "address": "0x4130dc"
+                    }
+                ], 
+                "dll": "api-ms-win-core-registry-l1-1-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "s_perror", 
+                        "address": "0x41300c"
+                    }
+                ], 
+                "dll": "MSWSOCK.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "LocalFree", 
+                        "address": "0x41309c"
+                    }
+                ], 
+                "dll": "api-ms-win-core-heap-l2-1-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "Sleep", 
+                        "address": "0x4130e4"
+                    }
+                ], 
+                "dll": "api-ms-win-core-synch-l1-2-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "TerminateProcess", 
+                        "address": "0x4130c0"
+                    }, 
+                    {
+                        "name": "GetCurrentThreadId", 
+                        "address": "0x4130c4"
+                    }, 
+                    {
+                        "name": "GetCurrentProcess", 
+                        "address": "0x4130c8"
+                    }, 
+                    {
+                        "name": "GetCurrentProcessId", 
+                        "address": "0x4130cc"
+                    }
+                ], 
+                "dll": "api-ms-win-core-processthreads-l1-1-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "GetModuleHandleW", 
+                        "address": "0x4130a4"
+                    }
+                ], 
+                "dll": "api-ms-win-core-libraryloader-l1-2-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "QueryPerformanceCounter", 
+                        "address": "0x4130d4"
+                    }
+                ], 
+                "dll": "api-ms-win-core-profile-l1-1-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "GetTickCount", 
+                        "address": "0x4130ec"
+                    }, 
+                    {
+                        "name": "GetSystemTimeAsFileTime", 
+                        "address": "0x4130f0"
+                    }
+                ], 
+                "dll": "api-ms-win-core-sysinfo-l1-1-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "EtwTraceMessageVa", 
+                        "address": "0x4131c4"
+                    }, 
+                    {
+                        "name": "RtlIpv6AddressToStringA", 
+                        "address": "0x4131c8"
+                    }, 
+                    {
+                        "name": "RtlIpv6StringToAddressExA", 
+                        "address": "0x4131cc"
+                    }, 
+                    {
+                        "name": "RtlIpv4StringToAddressA", 
+                        "address": "0x4131d0"
+                    }, 
+                    {
+                        "name": "NtQueryValueKey", 
+                        "address": "0x4131d4"
+                    }, 
+                    {
+                        "name": "RtlInitString", 
+                        "address": "0x4131d8"
+                    }, 
+                    {
+                        "name": "RtlFreeHeap", 
+                        "address": "0x4131dc"
+                    }, 
+                    {
+                        "name": "RtlUnicodeStringToAnsiString", 
+                        "address": "0x4131e0"
+                    }, 
+                    {
+                        "name": "RtlFreeUnicodeString", 
+                        "address": "0x4131e4"
+                    }, 
+                    {
+                        "name": "NtOpenKey", 
+                        "address": "0x4131e8"
+                    }, 
+                    {
+                        "name": "RtlAllocateHeap", 
+                        "address": "0x4131ec"
+                    }, 
+                    {
+                        "name": "RtlAnsiStringToUnicodeString", 
+                        "address": "0x4131f0"
+                    }
+                ], 
+                "dll": "ntdll.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "ExpandEnvironmentStringsA", 
+                        "address": "0x4130b8"
+                    }
+                ], 
+                "dll": "api-ms-win-core-processenvironment-l1-1-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "ResolveDelayLoadedAPI", 
+                        "address": "0x41306c"
+                    }
+                ], 
+                "dll": "api-ms-win-core-delayload-l1-1-1.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "DelayLoadFailureHook", 
+                        "address": "0x413064"
+                    }
+                ], 
+                "dll": "api-ms-win-core-delayload-l1-1-0.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "ApiSetQueryApiSetPresence", 
+                        "address": "0x41305c"
+                    }
+                ], 
+                "dll": "api-ms-win-core-apiquery-l1-1-0.dll"
+            }
+        ], 
+        "peid_signatures": null, 
+        "keys": [], 
+        "signature": [], 
+        "pe_timestamp": "2025-10-25 13:27:02", 
+        "pe_exports": [], 
+        "imported_dll_count": 19, 
+        "pe_imphash": "da56b644408c06ca96a55143f44254e8", 
+        "pe_resources": [
+            {
+                "name": "MUI", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00015c38", 
+                "size": "0x000000d0"
+            }, 
+            {
+                "name": "RT_ICON", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "Device independent bitmap graphic, 16 x 32 x 4, image size 128", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00015760", 
+                "size": "0x00000128"
+            }, 
+            {
+                "name": "RT_ICON", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "Device independent bitmap graphic, 16 x 32 x 4, image size 128", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00015760", 
+                "size": "0x00000128"
+            }, 
+            {
+                "name": "RT_GROUP_ICON", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x00015888", 
+                "size": "0x00000022"
+            }, 
+            {
+                "name": "RT_VERSION", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x000158b0", 
+                "size": "0x00000388"
+            }, 
+            {
+                "name": "RT_MANIFEST", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "XML 1.0 document, ASCII text, with CRLF line terminators", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x000151d0", 
+                "size": "0x000002a7"
+            }
+        ], 
+        "pe_versioninfo": [], 
+        "pe_sections": [
+            {
+                "size_of_data": "0x0000c000", 
+                "virtual_address": "0x00001000", 
+                "entropy": 6.443296023134687, 
+                "name": ".text", 
+                "virtual_size": "0x0000bf08"
+            }, 
+            {
+                "size_of_data": "0x00000400", 
+                "virtual_address": "0x0000d000", 
+                "entropy": 3.8657739009982195, 
+                "name": ".wpp_sf", 
+                "virtual_size": "0x00000223"
+            }, 
+            {
+                "size_of_data": "0x00003a00", 
+                "virtual_address": "0x0000e000", 
+                "entropy": 0.6722475330639165, 
+                "name": ".data", 
+                "virtual_size": "0x00004920"
+            }, 
+            {
+                "size_of_data": "0x00000e00", 
+                "virtual_address": "0x00013000", 
+                "entropy": 5.11042453335798, 
+                "name": ".idata", 
+                "virtual_size": "0x00000d72"
+            }, 
+            {
+                "size_of_data": "0x00000200", 
+                "virtual_address": "0x00014000", 
+                "entropy": 0.06116285224115448, 
+                "name": ".didat", 
+                "virtual_size": "0x00000008"
+            }, 
+            {
+                "size_of_data": "0x00000e00", 
+                "virtual_address": "0x00015000", 
+                "entropy": 3.919289158097092, 
+                "name": ".rsrc", 
+                "virtual_size": "0x00000d08"
+            }, 
+            {
+                "size_of_data": "0x00001000", 
+                "virtual_address": "0x00016000", 
+                "entropy": 6.368527517978165, 
+                "name": ".reloc", 
+                "virtual_size": "0x00000e24"
+            }
+        ]
+    }, 
+    "snort": {
+        "alerts": []
+    }, 
+    "behavior": {
+        "generic": [
+            {
+                "process_path": "C:\\Windows\\System32\\lsass.exe", 
+                "process_name": "lsass.exe", 
+                "pid": 508, 
+                "summary": {}, 
+                "first_seen": 1644803602.828125, 
+                "ppid": 392
+            }
+        ], 
+        "processes": [
+            {
+                "process_path": "C:\\Windows\\System32\\lsass.exe", 
+                "calls": [], 
+                "track": false, 
+                "pid": 508, 
+                "process_name": "lsass.exe", 
+                "command_line": "C:\\Windows\\system32\\lsass.exe", 
+                "modules": [
+                    {
+                        "basename": "lsass.exe", 
+                        "imgsize": 49152, 
+                        "baseaddr": "0xff8f0000", 
+                        "filepath": "C:\\Windows\\system32\\lsass.exe"
+                    }, 
+                    {
+                        "basename": "ntdll.dll", 
+                        "imgsize": 1740800, 
+                        "baseaddr": "0x77920000", 
+                        "filepath": "C:\\Windows\\SYSTEM32\\ntdll.dll"
+                    }, 
+                    {
+                        "basename": "kernel32.dll", 
+                        "imgsize": 1175552, 
+                        "baseaddr": "0x77700000", 
+                        "filepath": "C:\\Windows\\system32\\kernel32.dll"
+                    }, 
+                    {
+                        "basename": "KERNELBASE.dll", 
+                        "imgsize": 438272, 
+                        "baseaddr": "0x7fefda70000", 
+                        "filepath": "C:\\Windows\\system32\\KERNELBASE.dll"
+                    }, 
+                    {
+                        "basename": "msvcrt.dll", 
+                        "imgsize": 651264, 
+                        "baseaddr": "0x7feff6f0000", 
+                        "filepath": "C:\\Windows\\system32\\msvcrt.dll"
+                    }, 
+                    {
+                        "basename": "RPCRT4.dll", 
+                        "imgsize": 1232896, 
+                        "baseaddr": "0x7feff200000", 
+                        "filepath": "C:\\Windows\\system32\\RPCRT4.dll"
+                    }, 
+                    {
+                        "basename": "SspiSrv.dll", 
+                        "imgsize": 45056, 
+                        "baseaddr": "0x7fefd520000", 
+                        "filepath": "C:\\Windows\\system32\\SspiSrv.dll"
+                    }, 
+                    {
+                        "basename": "lsasrv.dll", 
+                        "imgsize": 1470464, 
+                        "baseaddr": "0x7fefd3b0000", 
+                        "filepath": "C:\\Windows\\system32\\lsasrv.dll"
+                    }, 
+                    {
+                        "basename": "sechost.dll", 
+                        "imgsize": 126976, 
+                        "baseaddr": "0x7feff630000", 
+                        "filepath": "C:\\Windows\\SYSTEM32\\sechost.dll"
+                    }, 
+                    {
+                        "basename": "SspiCli.dll", 
+                        "imgsize": 151552, 
+                        "baseaddr": "0x7fefd530000", 
+                        "filepath": "C:\\Windows\\system32\\SspiCli.dll"
+                    }, 
+                    {
+                        "basename": "ADVAPI32.dll", 
+                        "imgsize": 897024, 
+                        "baseaddr": "0x7feff510000", 
+                        "filepath": "C:\\Windows\\system32\\ADVAPI32.dll"
+                    }, 
+                    {
+                        "basename": "USER32.dll", 
+                        "imgsize": 1024000, 
+                        "baseaddr": "0x77820000", 
+                        "filepath": "C:\\Windows\\system32\\USER32.dll"
+                    }, 
+                    {
+                        "basename": "GDI32.dll", 
+                        "imgsize": 421888, 
+                        "baseaddr": "0x7feff790000", 
+                        "filepath": "C:\\Windows\\system32\\GDI32.dll"
+                    }, 
+                    {
+                        "basename": "LPK.dll", 
+                        "imgsize": 57344, 
+                        "baseaddr": "0x7feff620000", 
+                        "filepath": "C:\\Windows\\system32\\LPK.dll"
+                    }, 
+                    {
+                        "basename": "USP10.dll", 
+                        "imgsize": 823296, 
+                        "baseaddr": "0x7feff800000", 
+                        "filepath": "C:\\Windows\\system32\\USP10.dll"
+                    }, 
+                    {
+                        "basename": "SAMSRV.dll", 
+                        "imgsize": 774144, 
+                        "baseaddr": "0x7fefd200000", 
+                        "filepath": "C:\\Windows\\system32\\SAMSRV.dll"
+                    }, 
+                    {
+                        "basename": "cryptdll.dll", 
+                        "imgsize": 81920, 
+                        "baseaddr": "0x7fefd1e0000", 
+                        "filepath": "C:\\Windows\\system32\\cryptdll.dll"
+                    }, 
+                    {
+                        "basename": "MSASN1.dll", 
+                        "imgsize": 61440, 
+                        "baseaddr": "0x7fefd770000", 
+                        "filepath": "C:\\Windows\\system32\\MSASN1.dll"
+                    }, 
+                    {
+                        "basename": "wevtapi.dll", 
+                        "imgsize": 446464, 
+                        "baseaddr": "0x7fefd170000", 
+                        "filepath": "C:\\Windows\\system32\\wevtapi.dll"
+                    }, 
+                    {
+                        "basename": "IMM32.DLL", 
+                        "imgsize": 188416, 
+                        "baseaddr": "0x7feff5f0000", 
+                        "filepath": "C:\\Windows\\system32\\IMM32.DLL"
+                    }, 
+                    {
+                        "basename": "MSCTF.dll", 
+                        "imgsize": 1085440, 
+                        "baseaddr": "0x7fefedd0000", 
+                        "filepath": "C:\\Windows\\system32\\MSCTF.dll"
+                    }, 
+                    {
+                        "basename": "cngaudit.dll", 
+                        "imgsize": 36864, 
+                        "baseaddr": "0x7fefd160000", 
+                        "filepath": "C:\\Windows\\system32\\cngaudit.dll"
+                    }, 
+                    {
+                        "basename": "AUTHZ.dll", 
+                        "imgsize": 192512, 
+                        "baseaddr": "0x7fefd130000", 
+                        "filepath": "C:\\Windows\\system32\\AUTHZ.dll"
+                    }, 
+                    {
+                        "basename": "ncrypt.dll", 
+                        "imgsize": 319488, 
+                        "baseaddr": "0x7fefd0e0000", 
+                        "filepath": "C:\\Windows\\system32\\ncrypt.dll"
+                    }, 
+                    {
+                        "basename": "bcrypt.dll", 
+                        "imgsize": 139264, 
+                        "baseaddr": "0x7fefd0b0000", 
+                        "filepath": "C:\\Windows\\system32\\bcrypt.dll"
+                    }, 
+                    {
+                        "basename": "msprivs.DLL", 
+                        "imgsize": 8192, 
+                        "baseaddr": "0x75500000", 
+                        "filepath": "C:\\Windows\\system32\\msprivs.DLL"
+                    }, 
+                    {
+                        "basename": "netjoin.dll", 
+                        "imgsize": 204800, 
+                        "baseaddr": "0x7fefd070000", 
+                        "filepath": "C:\\Windows\\system32\\netjoin.dll"
+                    }, 
+                    {
+                        "basename": "negoexts.DLL", 
+                        "imgsize": 147456, 
+                        "baseaddr": "0x7fefd040000", 
+                        "filepath": "C:\\Windows\\system32\\negoexts.DLL"
+                    }, 
+                    {
+                        "basename": "Secur32.dll", 
+                        "imgsize": 45056, 
+                        "baseaddr": "0x7fefd370000", 
+                        "filepath": "C:\\Windows\\system32\\Secur32.dll"
+                    }, 
+                    {
+                        "basename": "cryptbase.dll", 
+                        "imgsize": 61440, 
+                        "baseaddr": "0x7fefd5c0000", 
+                        "filepath": "C:\\Windows\\system32\\cryptbase.dll"
+                    }, 
+                    {
+                        "basename": "kerberos.DLL", 
+                        "imgsize": 737280, 
+                        "baseaddr": "0x7fefcf80000", 
+                        "filepath": "C:\\Windows\\system32\\kerberos.DLL"
+                    }, 
+                    {
+                        "basename": "CRYPTSP.dll", 
+                        "imgsize": 94208, 
+                        "baseaddr": "0x7fefcf60000", 
+                        "filepath": "C:\\Windows\\system32\\CRYPTSP.dll"
+                    }, 
+                    {
+                        "basename": "WS2_32.dll", 
+                        "imgsize": 315392, 
+                        "baseaddr": "0x7fefeb40000", 
+                        "filepath": "C:\\Windows\\system32\\WS2_32.dll"
+                    }, 
+                    {
+                        "basename": "NSI.dll", 
+                        "imgsize": 32768, 
+                        "baseaddr": "0x7feffc20000", 
+                        "filepath": "C:\\Windows\\system32\\NSI.dll"
+                    }, 
+                    {
+                        "basename": "mswsock.dll", 
+                        "imgsize": 348160, 
+                        "baseaddr": "0x7fefcf00000", 
+                        "filepath": "C:\\Windows\\system32\\mswsock.dll"
+                    }, 
+                    {
+                        "basename": "wship6.dll", 
+                        "imgsize": 28672, 
+                        "baseaddr": "0x7fefcef0000", 
+                        "filepath": "C:\\Windows\\System32\\wship6.dll"
+                    }, 
+                    {
+                        "basename": "msv1_0.DLL", 
+                        "imgsize": 331776, 
+                        "baseaddr": "0x7fefce90000", 
+                        "filepath": "C:\\Windows\\system32\\msv1_0.DLL"
+                    }, 
+                    {
+                        "basename": "netlogon.DLL", 
+                        "imgsize": 712704, 
+                        "baseaddr": "0x7fefcde0000", 
+                        "filepath": "C:\\Windows\\system32\\netlogon.DLL"
+                    }, 
+                    {
+                        "basename": "DNSAPI.dll", 
+                        "imgsize": 372736, 
+                        "baseaddr": "0x7fefcd80000", 
+                        "filepath": "C:\\Windows\\system32\\DNSAPI.dll"
+                    }, 
+                    {
+                        "basename": "logoncli.dll", 
+                        "imgsize": 196608, 
+                        "baseaddr": "0x7fefcd50000", 
+                        "filepath": "C:\\Windows\\system32\\logoncli.dll"
+                    }, 
+                    {
+                        "basename": "schannel.DLL", 
+                        "imgsize": 356352, 
+                        "baseaddr": "0x7fefccf0000", 
+                        "filepath": "C:\\Windows\\system32\\schannel.DLL"
+                    }, 
+                    {
+                        "basename": "CRYPT32.dll", 
+                        "imgsize": 1470464, 
+                        "baseaddr": "0x7fefd870000", 
+                        "filepath": "C:\\Windows\\system32\\CRYPT32.dll"
+                    }, 
+                    {
+                        "basename": "wdigest.DLL", 
+                        "imgsize": 221184, 
+                        "baseaddr": "0x7fefccb0000", 
+                        "filepath": "C:\\Windows\\system32\\wdigest.DLL"
+                    }, 
+                    {
+                        "basename": "rsaenh.dll", 
+                        "imgsize": 290816, 
+                        "baseaddr": "0x7fefcc60000", 
+                        "filepath": "C:\\Windows\\system32\\rsaenh.dll"
+                    }, 
+                    {
+                        "basename": "tspkg.DLL", 
+                        "imgsize": 98304, 
+                        "baseaddr": "0x7fefcc40000", 
+                        "filepath": "C:\\Windows\\system32\\tspkg.DLL"
+                    }, 
+                    {
+                        "basename": "pku2u.DLL", 
+                        "imgsize": 282624, 
+                        "baseaddr": "0x7fefcbf0000", 
+                        "filepath": "C:\\Windows\\system32\\pku2u.DLL"
+                    }, 
+                    {
+                        "basename": "bcryptprimitives.dll", 
+                        "imgsize": 311296, 
+                        "baseaddr": "0x7fefcba0000", 
+                        "filepath": "C:\\Windows\\system32\\bcryptprimitives.dll"
+                    }, 
+                    {
+                        "basename": "RpcRtRemote.dll", 
+                        "imgsize": 81920, 
+                        "baseaddr": "0x7fefd6b0000", 
+                        "filepath": "C:\\Windows\\system32\\RpcRtRemote.dll"
+                    }, 
+                    {
+                        "basename": "efslsaext.dll", 
+                        "imgsize": 73728, 
+                        "baseaddr": "0x7fefcb80000", 
+                        "filepath": "C:\\Windows\\system32\\efslsaext.dll"
+                    }, 
+                    {
+                        "basename": "scecli.DLL", 
+                        "imgsize": 253952, 
+                        "baseaddr": "0x7fefcb20000", 
+                        "filepath": "C:\\Windows\\system32\\scecli.DLL"
+                    }, 
+                    {
+                        "basename": "credssp.dll", 
+                        "imgsize": 40960, 
+                        "baseaddr": "0x7fefcb60000", 
+                        "filepath": "C:\\Windows\\system32\\credssp.dll"
+                    }, 
+                    {
+                        "basename": "WINSTA.dll", 
+                        "imgsize": 249856, 
+                        "baseaddr": "0x7fefd670000", 
+                        "filepath": "C:\\Windows\\system32\\WINSTA.dll"
+                    }, 
+                    {
+                        "basename": "IPHLPAPI.DLL", 
+                        "imgsize": 159744, 
+                        "baseaddr": "0x7fefb2b0000", 
+                        "filepath": "C:\\Windows\\system32\\IPHLPAPI.DLL"
+                    }, 
+                    {
+                        "basename": "WINNSI.DLL", 
+                        "imgsize": 45056, 
+                        "baseaddr": "0x7fefb2a0000", 
+                        "filepath": "C:\\Windows\\system32\\WINNSI.DLL"
+                    }, 
+                    {
+                        "basename": "netutils.dll", 
+                        "imgsize": 49152, 
+                        "baseaddr": "0x7fefb020000", 
+                        "filepath": "C:\\Windows\\system32\\netutils.dll"
+                    }, 
+                    {
+                        "basename": "USERENV.dll", 
+                        "imgsize": 122880, 
+                        "baseaddr": "0x7fefca10000", 
+                        "filepath": "C:\\Windows\\system32\\USERENV.dll"
+                    }, 
+                    {
+                        "basename": "profapi.dll", 
+                        "imgsize": 61440, 
+                        "baseaddr": "0x7fefd6d0000", 
+                        "filepath": "C:\\Windows\\system32\\profapi.dll"
+                    }, 
+                    {
+                        "basename": "wshtcpip.dll", 
+                        "imgsize": 28672, 
+                        "baseaddr": "0x7fefc900000", 
+                        "filepath": "C:\\Windows\\System32\\wshtcpip.dll"
+                    }, 
+                    {
+                        "basename": "dssenh.dll", 
+                        "imgsize": 204800, 
+                        "baseaddr": "0x7fef4460000", 
+                        "filepath": "C:\\Windows\\system32\\dssenh.dll"
+                    }, 
+                    {
+                        "basename": "GPAPI.dll", 
+                        "imgsize": 110592, 
+                        "baseaddr": "0x7fefc9f0000", 
+                        "filepath": "C:\\Windows\\system32\\GPAPI.dll"
+                    }, 
+                    {
+                        "basename": "monitor-x64.dll", 
+                        "imgsize": 2269184, 
+                        "baseaddr": "0x74cd0000", 
+                        "filepath": "C:\\tmptisd8w\\bin\\monitor-x64.dll"
+                    }
+                ], 
+                "time": 0, 
+                "tid": 1908, 
+                "first_seen": 1644803602.828125, 
+                "ppid": 392, 
+                "type": "process"
+            }
+        ], 
+        "processtree": [
+            {
+                "track": false, 
+                "pid": 508, 
+                "process_name": "lsass.exe", 
+                "command_line": "C:\\Windows\\system32\\lsass.exe", 
+                "first_seen": 1644803602.828125, 
+                "ppid": 392, 
+                "children": []
+            }
+        ]
+    }, 
+    "memory": {
+        "malconfscan": {
+            "data": [], 
+            "config": {
+                "filter": false
+            }
+        }, 
+        "yarascan": {
+            "data": [
+                {
+                    "owner": "Process svchost.exe Pid 904", 
+                    "hexdump": "0x02bfa5c8  73 00 79 00 73 00 74 00 65 00 6d 00 69 00 6e 00   s.y.s.t.e.m.i.n.\n0x02bfa5d8  66 00 6f 00 2e 00 65 00 78 00 65 00 00 00 00 00   f.o...e.x.e.....\n0x02bfa5e8  57 49 ae 79 28 07 00 80 32 00 bf 02 00 00 00 00   WI.y(...2.......\n0x02bfa5f8  01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ................\n", 
+                    "rule": "gen_memory_commands_shell_dev"
+                }, 
+                {
+                    "owner": "Process svchost.exe Pid 904", 
+                    "hexdump": "0x0417ef68  73 00 79 00 73 00 74 00 65 00 6d 00 69 00 6e 00   s.y.s.t.e.m.i.n.\n0x0417ef78  66 00 6f 00 2e 00 65 00 78 00 65 00 00 00 00 00   f.o...e.x.e.....\n0x0417ef88  a5 84 c4 79 28 00 00 80 ba 00 17 04 00 00 00 00   ...y(...........\n0x0417ef98  01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ................\n", 
+                    "rule": "gen_memory_commands_shell_dev"
+                }, 
+                {
+                    "owner": "Process svchost.exe Pid 904", 
+                    "hexdump": "0x0418bee8  73 00 79 00 73 00 74 00 65 00 6d 00 69 00 6e 00   s.y.s.t.e.m.i.n.\n0x0418bef8  66 00 6f 00 2e 00 65 00 78 00 65 00 00 00 00 00   f.o...e.x.e.....\n0x0418bf08  9d 1a ac 79 28 07 00 80 3a 00 18 04 00 00 00 00   ...y(...:.......\n0x0418bf18  01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ................\n", 
+                    "rule": "gen_memory_commands_shell_dev"
+                }
+            ], 
+            "config": {
+                "filter": false
+            }
+        }
+    }, 
+    "debug": {
+        "action": [], 
+        "dbgview": [], 
+        "errors": [], 
+        "log": [
+            "2022-02-14 00:53:22,000 [analyzer] DEBUG: Starting analyzer from: C:\\tmptisd8w\n", 
+            "2022-02-14 00:53:22,015 [analyzer] DEBUG: Pipe server name: \\??\\PIPE\\xbgzTrhOYMLibQADYokpYyoCQJumWnZ\n", 
+            "2022-02-14 00:53:22,015 [analyzer] DEBUG: Log pipe server name: \\??\\PIPE\\NPVSSYmBasVPiikd\n", 
+            "2022-02-14 00:53:22,280 [analyzer] DEBUG: Started auxiliary module Curtain\n", 
+            "2022-02-14 00:53:22,280 [analyzer] DEBUG: Started auxiliary module DbgView\n", 
+            "2022-02-14 00:53:22,687 [analyzer] DEBUG: Started auxiliary module Disguise\n", 
+            "2022-02-14 00:53:22,890 [analyzer] DEBUG: Loaded monitor into process with pid 508\n", 
+            "2022-02-14 00:53:22,890 [analyzer] DEBUG: Started auxiliary module DumpTLSMasterSecrets\n", 
+            "2022-02-14 00:53:22,890 [analyzer] DEBUG: Started auxiliary module Human\n", 
+            "2022-02-14 00:53:22,890 [analyzer] DEBUG: Started auxiliary module InstallCertificate\n", 
+            "2022-02-14 00:53:22,905 [analyzer] DEBUG: Started auxiliary module Reboot\n", 
+            "2022-02-14 00:53:22,983 [analyzer] DEBUG: Started auxiliary module RecentFiles\n", 
+            "2022-02-14 00:53:22,983 [analyzer] DEBUG: Started auxiliary module Screenshots\n", 
+            "2022-02-14 00:53:22,983 [analyzer] DEBUG: Started auxiliary module Sysmon\n", 
+            "2022-02-14 00:53:22,983 [analyzer] DEBUG: Started auxiliary module LoadZer0m0n\n", 
+            "2022-02-14 00:53:23,062 [lib.api.process] ERROR: Failed to execute process from path u'C:\\\\Users\\\\ADMINI~1\\\\AppData\\\\Local\\\\Temp\\\\nslookup.exe' with arguments ['bin\\\\inject-x86.exe', '--app', u'C:\\\\Users\\\\ADMINI~1\\\\AppData\\\\Local\\\\Temp\\\\nslookup.exe', '--only-start', '--curdir', 'C:\\\\Users\\\\ADMINI~1\\\\AppData\\\\Local\\\\Temp'] (Error: Command '['bin\\\\inject-x86.exe', '--app', u'C:\\\\Users\\\\ADMINI~1\\\\AppData\\\\Local\\\\Temp\\\\nslookup.exe', '--only-start', '--curdir', 'C:\\\\Users\\\\ADMINI~1\\\\AppData\\\\Local\\\\Temp']' returned non-zero exit status 1)\n"
+        ], 
+        "cuckoo": [
+            "2022-02-14 02:15:14,490 [cuckoo.core.scheduler] INFO: Task #2748820: acquired machine win7x647 (label=win7x647)\n", 
+            "2022-02-14 02:15:14,490 [cuckoo.core.resultserver] DEBUG: Now tracking machine 192.168.168.207 for task #2748820\n", 
+            "2022-02-14 02:15:14,620 [cuckoo.auxiliary.sniffer] INFO: Started sniffer with PID 613454 (interface=vboxnet0, host=192.168.168.207)\n", 
+            "2022-02-14 02:15:14,973 [cuckoo.machinery.virtualbox] DEBUG: Starting vm win7x647\n", 
+            "2022-02-14 02:15:15,328 [cuckoo.machinery.virtualbox] DEBUG: Restoring virtual machine win7x647 to vmcloak\n", 
+            "2022-02-14 02:19:09,790 [cuckoo.core.guest] INFO: Starting analysis #2748820 on guest (id=win7x647, ip=192.168.168.207)\n", 
+            "2022-02-14 02:19:10,795 [cuckoo.core.guest] DEBUG: win7x647: not ready yet\n", 
+            "2022-02-14 02:19:15,812 [cuckoo.core.guest] INFO: Guest is running Cuckoo Agent 0.10 (id=win7x647, ip=192.168.168.207)\n", 
+            "2022-02-14 02:19:15,888 [cuckoo.core.guest] DEBUG: Uploading analyzer to guest (id=win7x647, ip=192.168.168.207, monitor=latest, size=6659294)\n", 
+            "2022-02-14 02:19:17,224 [cuckoo.core.resultserver] DEBUG: Task #2748820: live log analysis.log initialized.\n", 
+            "2022-02-14 02:19:18,062 [cuckoo.core.resultserver] DEBUG: Task #2748820 is sending a BSON stream\n", 
+            "2022-02-14 02:19:19,306 [cuckoo.core.resultserver] DEBUG: Task #2748820: File upload for 'shots/0001.jpg'\n", 
+            "2022-02-14 02:19:19,377 [cuckoo.core.resultserver] DEBUG: Task #2748820 uploaded file length: 133533\n", 
+            "2022-02-14 02:19:19,780 [cuckoo.core.guest] WARNING: win7x647: analysis #2748820 caught an exception\n", 
+            "Traceback (most recent call last):\n", 
+            "  File \"C:/tmptisd8w/analyzer.py\", line 824, in <module>\n", 
+            "    success = analyzer.run()\n", 
+            "  File \"C:/tmptisd8w/analyzer.py\", line 673, in run\n", 
+            "    pids = self.package.start(self.target)\n", 
+            "  File \"C:\\tmptisd8w\\modules\\packages\\exe.py\", line 34, in start\n", 
+            "    return self.execute(path, args=shlex.split(args))\n", 
+            "  File \"C:\\tmptisd8w\\lib\\common\\abstracts.py\", line 205, in execute\n", 
+            "    \"Unable to execute the initial process, analysis aborted.\"\n", 
+            "CuckooPackageError: Unable to execute the initial process, analysis aborted.\n", 
+            "\n", 
+            "2022-02-14 02:19:19,788 [cuckoo.core.plugins] DEBUG: Stopped auxiliary module: Redsocks\n", 
+            "2022-02-14 02:19:19,891 [cuckoo.core.plugins] DEBUG: Stopped auxiliary module: Sniffer\n", 
+            "2022-02-14 02:19:47,878 [cuckoo.machinery.virtualbox] INFO: Successfully generated memory dump for virtual machine with label win7x647 to path /srv/cuckoo/cwd/storage/analyses/2748820/memory.dmp\n", 
+            "2022-02-14 02:19:47,879 [cuckoo.machinery.virtualbox] DEBUG: Stopping vm win7x647\n", 
+            "2022-02-14 02:24:53,743 [cuckoo.core.resultserver] DEBUG: Stopped tracking machine 192.168.168.207 for task #2748820\n", 
+            "2022-02-14 02:24:53,743 [cuckoo.core.resultserver] DEBUG: Cancel <Context for LOG> for task 2748820\n", 
+            "2022-02-14 02:24:53,900 [cuckoo.core.scheduler] DEBUG: Released database task #2748820\n", 
+            "2022-02-14 02:24:54,019 [cuckoo.core.scheduler] INFO: Task #2748820: analysis procedure completed\n"
+        ]
+    }, 
+    "strings": [
+        "!This program cannot be run in DOS mode.", 
+        "Rich*=0", 
+        "`.wpp_sf", 
+        "`.data", 
+        ".idata", 
+        "@.didat", 
+        "@.reloc", 
+        "ext-ms-win-ntuser-chartranslation-l1-1-0.dll", 
+        "Unrecognized command: %s", 
+        "fatal flex scanner internal error--no action found", 
+        "fatal flex scanner internal error--end of buffer missed", 
+        "integer overflow", 
+        "fatal error - scanner input buffer overflow", 
+        "input in flex scanner failed", 
+        "out of dynamic memory in yy_create_buffer()", 
+        "    HEADER:", 
+        "opcode = %s", 
+        ", id = %d", 
+        ", rcode = %s", 
+        "header flags: ", 
+        " response", 
+        " query", 
+        ", auth. answer", 
+        ", truncation", 
+        ", want recursion", 
+        ", recursion avail.", 
+        ", primary", 
+        "questions = %d", 
+        ",  answers = %d", 
+        ",  authority records = %d", 
+        ",  additional = %d", 
+        "    QUESTIONS:", 
+        ", type = %s", 
+        ", class = %s", 
+        "    ANSWERS:", 
+        "    ->  ", 
+        "    AUTHORITY RECORDS:", 
+        "    ADDITIONAL RECORDS:", 
+        "------------", 
+        "Invalid Name at offset %Id!", 
+        "(root)", 
+        "%s%.*s", 
+        "(name truncated?)", 
+        "type = %s, class = %s, dlen = %d", 
+        "ttl = %lu (%s)", 
+        "internet address = %s", 
+        "internet address = %s", 
+        ", protocol = %d", 
+        ", port = %d", 
+        "address, class = %d, len = %d", 
+        "canonical name = ", 
+        "domain name (DNAME) = ", 
+        "AFSDB subtype = %d", 
+        ", AFS db server = ", 
+        "mail group member = ", 
+        "mail box = ", 
+        "mailbox rename = ", 
+        "MX preference = %u", 
+        ", mail exchanger = ", 
+        "nameserver = ", 
+        "name = ", 
+        "HINFO CPU = %.*s", 
+        "OS = %.*s", 
+        "primary name server = ", 
+        "responsible mail addr = ", 
+        "serial  = %lu", 
+        "refresh = %lu (%s)", 
+        "retry   = %lu (%s)", 
+        "expire  = %lu (%s)", 
+        "default TTL = %lu (%s)", 
+        "MINFO responsible mailbox = ", 
+        "errors to mailbox = ", 
+        "text =", 
+        "\"%.*s\"", 
+        "user info = %s", 
+        "%cid = %lu", 
+        "%cid of length %d?", 
+        "inet address = %s, protocol = %s", 
+        "inet address = %s, protocol = %d", 
+        "NULL (dlen %d)", 
+        "X25 X.121 address = %.*s", 
+        "RT preference = %u", 
+        ", intermediate host = ", 
+        "ISDN address = %.*s", 
+        "subaddress = %.*s", 
+        "RP mailbox = ", 
+        "text location = ", 
+        "AAAA:  Invalid IPv6 address length", 
+        "AAAA IPv6 address = %s", 
+        "SRV service location:", 
+        "  priority       = %d", 
+        "  weight         = %d", 
+        "  port           = %d", 
+        "  svr hostname   = ", 
+        "WINS lookup", 
+        "  flags = %lx (%s %s)", 
+        "  lookup timeout = %lu", 
+        "  cache TTL      = %lu", 
+        "  server count   = %lu", 
+        "  WINS server = (%s)", 
+        "WINS reverse (nbstat) lookup", 
+        "  flags = %lx (%s %s)", 
+        "  lookup timeout = %lu", 
+        "  cache TTL      = %lu", 
+        "  result domain  = ", 
+        "  next domain name = ", 
+        "  type bitmap = ", 
+        "auth/conf ", 
+        "auth-only ", 
+        "conf-only ", 
+        "no-key ", 
+        "flag-ext ", 
+        "host-key ", 
+        "zone-key ", 
+        "other-key ", 
+        "reserved-key ", 
+        "  flags      = 0x%04X %ssignatory=%d", 
+        "  protocol   = %s", 
+        "  algorithm  = %s", 
+        "  key length = %d", 
+        "  type covered    = %s", 
+        "  algorithm       = %s", 
+        "  label count     = %u", 
+        "  original TTL    = %u", 
+        "  sig expiration  = %04d-%02d-%02d %02d:%02d:%02d (%u)", 
+        "  sig inception   = %04d-%02d-%02d %02d:%02d:%02d (%u)", 
+        "  key tag         = %u", 
+        "  signer's name   = ", 
+        "  sig length      = %d", 
+        "??? unknown type %d ???", 
+        "ttl = %lu (%s)", 
+        "*** Error: record size incorrect (%Id != %d)", 
+        " ls -t %s %s", 
+        "unsupported query type for ls command: %s", 
+        " ls %s %s", 
+        "UNKNOWN-SERVER", 
+        "ls: socket", 
+        "ls: connect", 
+        "ls: write", 
+        " *** invalid DNS resource record, terminating transfer.", 
+        "Received AXFR message:  questions=%d, answers=%d", 
+        " *** invalid name, terminating transfer.", 
+        " %-30s", 
+        "%lu %-5s", 
+        " (%d, %d)", 
+        " (dlen = %d?)", 
+        "server", 
+        " %-10s", 
+        "  %.*s", 
+        " %s. (", 
+        " %-3d ", 
+        " invalid MX name", 
+        "\"%.*s\"", 
+        " %-3s ", 
+        " invalid AAAA address length", 
+        " priority=%d, weight=%d, port=%d, ", 
+        "WINS lookup info", 
+        "  flags = %lx (%s %s)", 
+        "  lookup timeout = %lu", 
+        "  cache TTL      = %lu", 
+        "  server count   = %lu", 
+        "  WINS server = (%s)", 
+        " view %s", 
+        "sort < %s | more", 
+        "UnKnown", 
+        " lserver %s", 
+        " server %s", 
+        " %s %s", 
+        "d2 mode disabled; still in debug mode", 
+        "base64", 
+        "nobase64", 
+        "  srchlist=%s", 
+        "/.nslookuprc", 
+        "IQUERY", 
+        "SERVER_STATUS", 
+        "UNKNOWN", 
+        "NOTIFY", 
+        "UPDATE", 
+        "UPDATEA", 
+        "UPDATED", 
+        "UPDATEDA", 
+        "UPDATEM", 
+        "UPDATEMA", 
+        "ZONEINIT", 
+        "ZONEREF", 
+        "NOERROR", 
+        "FORMERR", 
+        "SERVFAIL", 
+        "NXDOMAIN", 
+        "NOTIMP", 
+        "REFUSED", 
+        "YXDOMAIN", 
+        "YXRRSET", 
+        "NXRRSET", 
+        "NOTAUTH", 
+        "NOTZONE", 
+        "NOCHANGE", 
+        "0 secs", 
+        "%d day%s", 
+        "%d hour%s", 
+        "%d min%s", 
+        "%d sec%s", 
+        "127.0.0.1", 
+        "DNSLookupOrder", 
+        "Domain", 
+        "DhcpDomain", 
+        "SearchList", 
+        "DhcpSearchList", 
+        "------------", 
+        "SendRequest(), len %d", 
+        "socket (vc) failed", 
+        "connect failed", 
+        "write failed", 
+        "read failed", 
+        "socket (dg) failed", 
+        "connect", 
+        "select", 
+        "DNS request timed out.", 
+        "    timeout was %d seconds.", 
+        "timeout (%d secs)", 
+        "recvfrom", 
+        "------------", 
+        "Old answer:", 
+        "truncated answer", 
+        "------------", 
+        "Got answer (%d bytes):", 
+        "------------", 
+        "Got answer:", 
+        "address", 
+        "domain name pointer", 
+        "name server", 
+        "canonical name", 
+        "domain name (DNAME)", 
+        "mail exchange", 
+        "start of authority", 
+        "host information", 
+        "mailbox", 
+        "mail group member", 
+        "mail rename", 
+        "mail destination", 
+        "mail forwarder", 
+        "well-known services", 
+        "mailbox information", 
+        "responsible person", 
+        "AFS database server", 
+        "X25 address", 
+        "ISDN address", 
+        "route through", 
+        "IPv6 address", 
+        "NSAPPTR", 
+        "NSAP pointer", 
+        "Signature", 
+        "Public Key", 
+        "Not exist", 
+        "X.400 Exchange", 
+        "Geographic position", 
+        "IPv6 Address", 
+        "Service location", 
+        "WINS lookup info", 
+        "WINS-R", 
+        "WINS reverse lookup info", 
+        "incremental zone transfer", 
+        "zone transfer", 
+        "mailbox-related data", 
+        "mail agent", 
+        "all records", 
+        "user information", 
+        "user ID", 
+        "group ID", 
+        "A+AAAA", 
+        "internal type for both IPv4 and IPv6 Addresses", 
+        "RSA/MD5", 
+        "Diffie-Hellman", 
+        "Elliptic curve", 
+        "DNSSEC", 
+        "%-7s  %s", 
+        "Addresses:", 
+        "Address:", 
+        "Aliases:", 
+        "Served by:", 
+        "Success", 
+        "Format error", 
+        "Server failed", 
+        "Non-existent domain", 
+        "Not implemented", 
+        "Query refused", 
+        "No change", 
+        "Timed out", 
+        "No information", 
+        "Unspecified error", 
+        "Non-authoritative answer", 
+        "No response from server", 
+        "BAD ERROR VALUE", 
+        "HESIOD", 
+        "unknown query class: %s", 
+        "unknown query type: %s", 
+        "%u.%u.%u.%u", 
+        "%u.%u.%u.%u.in-addr.arpa.", 
+        "%x.%x.", 
+        "ip6.arpa.", 
+        "|aABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/Null Address", 
+        "nslookup.pdb", 
+        ".rdata$brc", 
+        ".CRT$XCA", 
+        ".CRT$XCAA", 
+        ".CRT$XCZ", 
+        ".CRT$XIA", 
+        ".CRT$XIAA", 
+        ".CRT$XIY", 
+        ".CRT$XIZ", 
+        ".gfids", 
+        ".giats", 
+        ".rdata", 
+        ".rdata$sxdata", 
+        ".rdata$zzzdbg", 
+        ".text$mn", 
+        ".xdata$x", 
+        ".didat$2", 
+        ".didat$3", 
+        ".didat$4", 
+        ".didat$6", 
+        ".didat$7", 
+        ".wpp_sf", 
+        ".data$brc", 
+        ".idata$5", 
+        ".00cfg", 
+        ".idata$2", 
+        ".idata$3", 
+        ".idata$4", 
+        ".idata$6", 
+        ".didat$5", 
+        ".rsrc$01", 
+        ".rsrc$02", 
+        "x+h$(@", 
+        "t@h0(@", 
+        "x'h$(@", 
+        "t@hH(@", 
+        "x'h$(@", 
+        "j XSPh(/@", 
+        "QRhl)@", 
+        "WPh`*@", 
+        "WPht*@", 
+        "YYh(+@", 
+        "WQhl+@", 
+        "WPh ,@", 
+        "WQhh,@", 
+        "wVWQh 1@", 
+        "QRhp3@", 
+        "PVj&Vh", 
+        ";|$4r\u001fj@", 
+        "_Whh4@", 
+        "Pj/hT5@", 
+        "t8Qh$7@", 
+        "7Ph|<@", 
+        "YYPj h", 
+        "YYPj h", 
+        "SVWj>Q", 
+        "PSh >@", 
+        "~ @_^[", 
+        "DSVWj@", 
+        "CharToOemBuffA", 
+        "Pj$hP>@", 
+        "PWRQVj!hP>@", 
+        "j\"hP>@", 
+        "A.ROOT-SERVERS.NET.", 
+        "\u001f !\"#$%&'()*+,-./0123456789:;<=>?@abcdefghijklmnopqrstuvwxyz[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~", 
+        "\\Registry\\Machine\\System\\CurrentControlSet\\Services\\Tcpip\\Parameters", 
+        "\\Registry\\Machine\\Software\\Policies\\Microsoft\\Windows NT\\DNSClient", 
+        "ferror", 
+        "realloc", 
+        "fprintf", 
+        "fwrite", 
+        "printf", 
+        "malloc", 
+        "_vsnprintf", 
+        "strcpy_s", 
+        "strcat_s", 
+        "gmtime", 
+        "putchar", 
+        "sprintf_s", 
+        "fflush", 
+        "fclose", 
+        "perror", 
+        "sscanf_s", 
+        "system", 
+        "strchr", 
+        "strncpy_s", 
+        "_strnicmp", 
+        "strncmp", 
+        "isspace", 
+        "getenv", 
+        "_write", 
+        "_XcptFilter", 
+        "__p__commode", 
+        "_amsg_exit", 
+        "__getmainargs", 
+        "__set_app_type", 
+        "_cexit", 
+        "__p__fmode", 
+        "__setusermatherr", 
+        "_initterm", 
+        "msvcrt.dll", 
+        "?terminate@@YAXXZ", 
+        "_controlfp", 
+        "_except_handler4_common", 
+        "HeapFree", 
+        "HeapAlloc", 
+        "GetProcessHeap", 
+        "DnsFreeConfigStructure", 
+        "freeaddrinfo", 
+        "SetThreadUILanguage", 
+        "DnsQueryConfigAllocEx", 
+        "getaddrinfo", 
+        "HeapSetInformation", 
+        "SetLastError", 
+        "RegCloseKey", 
+        "s_perror", 
+        "LocalFree", 
+        "FormatMessageA", 
+        "UnhandledExceptionFilter", 
+        "SetUnhandledExceptionFilter", 
+        "GetCurrentProcess", 
+        "TerminateProcess", 
+        "GetModuleHandleW", 
+        "QueryPerformanceCounter", 
+        "GetCurrentProcessId", 
+        "GetCurrentThreadId", 
+        "GetSystemTimeAsFileTime", 
+        "GetTickCount", 
+        "api-ms-win-core-heap-l1-1-0.dll", 
+        "WS2_32.dll", 
+        "DNSAPI.dll", 
+        "api-ms-win-core-localization-l1-2-0.dll", 
+        "api-ms-win-core-errorhandling-l1-1-0.dll", 
+        "api-ms-win-core-registry-l1-1-0.dll", 
+        "MSWSOCK.dll", 
+        "api-ms-win-core-heap-l2-1-0.dll", 
+        "api-ms-win-core-synch-l1-2-0.dll", 
+        "api-ms-win-core-processthreads-l1-1-0.dll", 
+        "api-ms-win-core-libraryloader-l1-2-0.dll", 
+        "api-ms-win-core-profile-l1-1-0.dll", 
+        "api-ms-win-core-sysinfo-l1-1-0.dll", 
+        "RtlAnsiStringToUnicodeString", 
+        "RtlAllocateHeap", 
+        "NtOpenKey", 
+        "RtlFreeUnicodeString", 
+        "RtlUnicodeStringToAnsiString", 
+        "RtlFreeHeap", 
+        "RtlInitString", 
+        "NtQueryValueKey", 
+        "RtlIpv4StringToAddressA", 
+        "RtlIpv6StringToAddressExA", 
+        "RtlIpv6AddressToStringA", 
+        "EtwTraceMessageVa", 
+        "ntdll.dll", 
+        "__iob_func", 
+        "_vsnprintf_s", 
+        "ExpandEnvironmentStringsA", 
+        "GetLastError", 
+        "ResolveDelayLoadedAPI", 
+        "DelayLoadFailureHook", 
+        "api-ms-win-core-processenvironment-l1-1-0.dll", 
+        "api-ms-win-core-delayload-l1-1-1.dll", 
+        "api-ms-win-core-delayload-l1-1-0.dll", 
+        "ApiSetQueryApiSetPresence", 
+        "api-ms-win-core-apiquery-l1-1-0.dll", 
+        "memcpy", 
+        "memset", 
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>", 
+        "<!-- Copyright (c) Microsoft Corporation -->", 
+        "<assembly xmlns=\"urn:schemas-microsoft-com:asm.v1\" manifestVersion=\"1.0\">", 
+        "<assemblyIdentity", 
+        "    version=\"5.1.0.0\"", 
+        "    processorArchitecture=\"x86\"", 
+        "    name=\"Microsoft.Windows.DNS.NSLookup\"", 
+        "    type=\"win32\"", 
+        "<description>Microsoft Name Server Lookup</description>", 
+        "<trustInfo xmlns=\"urn:schemas-microsoft-com:asm.v3\">", 
+        "    <security>", 
+        "        <requestedPrivileges>", 
+        "            <requestedExecutionLevel", 
+        "                level=\"asInvoker\"", 
+        "                uiAccess=\"false\"", 
+        "            />", 
+        "        </requestedPrivileges>", 
+        "    </security>", 
+        "</trustInfo>", 
+        "</assembly>", 
+        "DDD@DDD@DDD@", 
+        "DDD@DDD@", 
+        "DD@DD@", 
+        "0 0$0(0,0004080<0@0D0H0L0P0T0X0\\0`0d0h0l0p0t0x0|0", 
+        "0@1L1P1", 
+        "_2f2l2t2~2", 
+        "3*3?3I3U3i3q3", 
+        "464<4A4F4M4S4\\4k4s4", 
+        "545>5Q5Y5_5f5", 
+        "646<6B6I6a6", 
+        "7$7I7Q7W7^7", 
+        "848<8B8I8s8{8", 
+        "9+93999@9k9s9y9", 
+        ": :$:(:,:0:4:8:<:@:D:H:L:P:T:`:f:m:u:", 
+        ";/;Z;`;f;", 
+        "<!<7<?<W<l<v<", 
+        "=3=;=A=F=M=U=^=p=}=", 
+        ">\u001f>3>A>Y>", 
+        "1#1*181=1D1I1P1^1e1l1z1", 
+        "2'2.2<2E2L2Z2m2t2", 
+        "3 3/363H3O3y3", 
+        "4$4=4u4|4", 
+        "4,555C5i5", 
+        "5\"6)6\\6a6", 
+        "9+92979>9M9T9[9u9|9", 
+        ":?:F:u:|:", 
+        ";<;C;J;g;v;", 
+        "<1<L<^<k<", 
+        "<)=U=r=y=~=", 
+        ">\">)>F>[>b>", 
+        "?5?<?n?u?", 
+        "+02090@0R0f0x0", 
+        "3/494P4j4q4", 
+        "5)505?5b5i5", 
+        "6 6$6(6,606D6", 
+        "={=]>j>q>", 
+        "2\u001f2(2-2f2", 
+        "7%818q8x8", 
+        "<-<3<@<X<^<v<|<", 
+        "=\u001f=3=9=?=G=M=f=l=", 
+        "?0?6?<?F?Q?W?", 
+        "090D0z0", 
+        "152G2V2x2", 
+        "3$3M3T3", 
+        "4A4S4_4f4|4", 
+        "4+525j5q5x5", 
+        "6O6V6u6", 
+        "97:>:w:", 
+        ";9;=;A;E;I;M;Q;U;Y;];a;", 
+        "=.=8=g=", 
+        ">&>0>7>N>m>s>", 
+        "?>?Q?[?", 
+        "0/060<0D0S0^0h0{0", 
+        "1(191e1z1", 
+        "2$282I2q2x2", 
+        "2V3a3g3p3z3", 
+        "4_4e4j4", 
+        "6\u001f6&6+646D6O6`6f6l6", 
+        "7\"7K7`7u7|7", 
+        "868K8W8^8u8", 
+        "9#9*979I9P9]9l9s9", 
+        ":\":/:;:B:R:a:f:r:y:", 
+        ";\u001f;&;3;?;F;S;`;g;w;", 
+        "<!<(<5<D<K<X<g<n<~<", 
+        "=#=0=<=C=P=`=g=t=", 
+        ">V>]>k>{>", 
+        "?#?(?.?6?_?{?", 
+        "0 0%0+010<0J0k0p0v0{0", 
+        "131V1d1", 
+        "5P5W5e5l5u5", 
+        "516;6B6L6U6d6s6", 
+        "787H7b7t7", 
+        "8+8T8b8", 
+        "9Q9X9`9h9u9}9", 
+        ":\":7:A:L:h:p:", 
+        ";,;C;k;s;};", 
+        ">>>I>U>~>", 
+        "?4?:?A?G?M?S?i?", 
+        "0+02080V0a0q0|0", 
+        "0\"1(1Q1_1f1l1s1y1", 
+        "1'232:2@2G2M2S2e2", 
+        "3%313=3C3a3", 
+        "5#52595o5", 
+        "636:6A6[6b6}6", 
+        "7 7'7H7O7l7t7{7", 
+        "8*8C8J8W8^8e8r8y8", 
+        "9&9+9>9N9^9r9", 
+        ":(:A:H:O:`:i:v:", 
+        ";);0;7;H;q;", 
+        "=?=W=d=", 
+        "='>1>V>q>", 
+        "Y0h0z0", 
+        "212>2H2H3", 
+        "5(52575A5P5[5f5r5{5", 
+        "6!6&6+60666>6F6`6", 
+        "7%7-757;7A7N7T7^7}7", 
+        "8*858?8J8r8", 
+        "9)92979=9G9Q9a9q9w9", 
+        ":H;M;_;};", 
+        ";F<d<s<|<", 
+        ">=>C>\\>`>|>", 
+        "0 0(0,04080@0D0L0P0X0\\0d0h0p0t0|0", 
+        "1$1(10141<1@1H1L1T1X1`1d1l1p1x1|1", 
+        "2$2(20242<2@2H2L2d2h2p2t2|2", 
+        "ext-ms-win-ntuser-chartranslation-l1-1-0", 
+        "##*,##$%-'(#)*+,##-&####$%@#", 
+        "#2359#6A7B8P4#####EFd####H####", 
+        "Xv#LMYZ[\\`QR#STf", 
+        "VV[\\#ViyVqrz##VW", 
+        "&0 \u001f!!!!'!!!!&()*-'+1,2,A)(,+*245P-1547P7A)...899...///>>", 
+        "///3333H33336::86", 
+        ":<<<@@H<<<===BBe===EeELLFFGGJQQ@SSVV", 
+        "SWWBCCCXYYCCCDF", 
+        "DD[[XD]hDbbi]hDDIIII", 
+        "IIIIKKKdd", 
+        "KKKNNNNiNNNNUUUjj", 
+        "UUU^^^dqq^^^___", 
+        "___````", 
+        "````aaa{{", 
+        "aaaffffyffffgggg", 
+        "ggggll", 
+        "nnnooo", 
+        "oooppp", 
+        "pppssss", 
+        "ssssuuu", 
+        "uuuwww", 
+        "wwwxxx", 
+        "xxxzzzz", 
+        "zzzz}}", 
+        ":<C0;154DE", 
+        "FKA@GPOm", 
+        "Z_gwjiho", 
+        "ID_ICON_MAIN", 
+        "VS_VERSION_INFO", 
+        "StringFileInfo", 
+        "040904B0", 
+        "CompanyName", 
+        "Microsoft Corporation", 
+        "FileDescription", 
+        "nslookup", 
+        "FileVersion", 
+        "10.0.19041.1 (WinBuild.160101.0800)", 
+        "InternalName", 
+        "nslookup.exe", 
+        "LegalCopyright", 
+        " Microsoft Corporation. All rights reserved.", 
+        "OriginalFilename", 
+        "nslookup.exe", 
+        "ProductName", 
+        "Microsoft", 
+        " Windows", 
+        " Operating System", 
+        "ProductVersion", 
+        "10.0.19041.1", 
+        "VarFileInfo", 
+        "Translation"
+    ], 
+    "metadata": {
+        "output": {
+            "pcap": {
+                "basename": "dump.pcap", 
+                "sha256": "f42cebe51b8266c903b9f17cabcd15d5a8ac1620aad46f0eebeba7ef2a7bb5f2", 
+                "dirname": ""
+            }
+        }
+    }
+}
