@@ -1,5 +1,5 @@
 # Repository
-Retrieval of Ransomware to Dynamic Analysis
+**Re**trieval of Ransomware \textbf{pplied to Dynamic Analysis
 
 ## Limitation of Commercial Antivirus
 
