@@ -144,4 +144,43 @@ repository also makes available in its virtual address, its 998 benign ransomwar
 The features of ransomware files originate through the dynamic analysis of suspicious files. Therefore, in our methodology, the malware is executed in order to infect, intentionally, the JVM installed in Windows 7 audited, in real time (dynamic), by the Cuckoo Sandbox. In total, 6,824 features are generated of each ransomware file, regarding the monitoring of the suspect file in the proposed controlled environment. Next, the groups of features are detailed.
 
 
+###### Table 3 –  Descrição das características .
+
+| Característica       | Descrição de parte das características      |       
+|----------------------|---------------------------------------------|
+signatures_"signatures"	|Uma breve descrição do que a assinatura representa. |
+signatures_"ttp"	|Táticas, técnicas e procedimentos (TTPs) mais comuns de ataques cibernéticos |
+signatures_"T1045"	|Uma tática de evasão de defesa, o T1045 está vinculado ao uso de tempo de execução ou empacotadores de software que ocultam arquivos desagradáveis, incluindo executáveis maliciosos|
+signatures_"call"	|Chamadas de API|
+signatures_"arguments"	|Argumentos referenciados das chamadas de API|
+signatures_"T1082"	|Meios para coletar informações detalhadas sobre o status de segurança de um sistema operacional, hardware e software.|
+signatures_"T1129"	|Carregador de módulo do Windows pode ser instruído a carregar DLLs de caminhos locais arbitrários e caminhos de rede arbitrários de convenção de nomenclatura universal (UNC). |Essa funcionalidade reside em NTDLL.dll e faz parte da API nativa do Windows que é chamada de funções como CreateProcess(), LoadLibrary(), etc. da API Win32.|
+signatures_"T1057"	|Os adversários podem tentar obter informações sobre processos em execução em um sistema. As informações obtidas podem ser usadas para obter uma compreensão do software comum executado em sistemas dentro da rede|
+signatures_"references"	|Lista de referências (URLs) para contextualizar a assinatura|
+signatures_"ioc"	|Objeto ou atividade que, observado em uma rede ou em um dispositivo, indica uma alta probabilidade de acesso não autorizado ao sistema - em outras palavras, que o sistema está comprometido |
+signatures_"T1012"	|Os adversários podem interagir com o Registro do Windows para coletar informações sobre o sistema, configuração e software instalado.|
+signatures_"T1053"	|Utilitários como at e schtasks, juntamente com o Agendador de Tarefas do Windows, podem ser usados para agendar programas ou scripts a serem executados em uma data e hora. Uma tarefa também pode ser agendada em um sistema remoto, desde que a autenticação adequada seja atendida para usar RPC e o compartilhamento de arquivos e impressoras esteja ativado. Agendar uma tarefa em um sistema remoto normalmente exigia ser um membro do grupo Administradores no sistema remoto."|
+signatures_"T1060"	|Adicionar uma entrada às \"chaves de execução\" no Registro ou pasta de inicialização fará com que o programa referenciado seja executado quando um usuário fizer login. Esses programas serão executados no contexto do usuário e terão o nível de permissões associado à conta."|
+signatures_"families"	|uma lista de nomes de família de malware, caso a assinatura corresponda especificamente a um conhecido.|
+signatures_"T1143"	|As configurações de como os aplicativos são executados no macOS e OS X são listadas nos arquivos de lista de propriedades (plist). Uma das tags nesses arquivos pode ser apple.awt.UIElement, que permite que aplicativos Java impeçam que o ícone do aplicativo apareça no Dock. Um uso comum para isso é quando os aplicativos são executados na bandeja do sistema, mas também não querem aparecer no Dock. No entanto, os adversários podem abusar desse recurso e ocultar sua janela de execução.|
+signatures_"regkey"	|Indica a chave de registro acessada|
+signatures_"regkey_r"	|Endereço da chave de registro|
+signatures_"T1158"	|Arquivos e diretórios ocultos|
+signatures_"T1106"	|Funções como a API do Windows CreateProcess permitirão que programas e scripts iniciem outros processos com parâmetros de caminho e argumento adequados."|
+signatures_"c2"	|APIs de keylogging|
+signatures_"c9"	|Conecta-se a hosts suspeitos|
+signatures_"c7"	|Instalação no Autorun|
+signatures_"c3"	|APIs de rede|
+signatures_"c6"	|Porcentagem de pacotes de saída|
+signatures_"c11"	|Acessa dados de bitcoin|
+signatures_"c10"	|Deleta o binário original|
+signatures_"c5"	|Número de arquivos acessados|
+signatures_"category": |"pdb_path", 	Banco de dados de programas (PDB) é um formato de arquivo (desenvolvido pela Microsoft) para armazenar informações de depuração sobre um programa (ou, geralmente, módulos de programa, como DLL ou EXE). Os autores de malware na maior parte dos casos precisam depurar   seu código e utilizam o PDB para isso.|
+signatures_"category": "file" 	|Descreve o tipo de evento relacionado a arquivo.|
+signatures_"category": "process" 	|Descreve o tipo de evento relacionado ao processo executado.|
+signatures_"category": "Jiangmin" 	|Descreve o tipo de evento relacionado ao resultado da identificação do antivirus Jiangmin.|
+signatures_"category": "Antiy-AVL"	|Descreve o tipo de evento relacionado ao resultado da identificação do antivirus Antiy-AVL.|
+signatures_"category": "Malwarebytes" |	Descreve o tipo de evento relacionado ao resultado da identificação do antivirus Malwarebytes.|
+
+
 
