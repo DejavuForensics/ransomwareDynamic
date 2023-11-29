@@ -101,21 +101,21 @@ Avast-Mobile	0	8,1	91,9
 
 | Antivirus            | VirusShare_A                                |           VirusShare_B                      | 
 |----------------------|---------------------------------------------|---------------------------------------------|
-McAfee-GW-Edition	 |	\makecell{Artemis!Trojan	} |		\makecell{PWS-Zbot.gen.jr} |
-NANO-Antivirus |	\makecell{Trojan.Android.SMSSend.numyx}  |		\makecell{Trojan.Java.CVE20113544.cspflc} |
+McAfee-GW-Edition	 |	Artemis!Trojan	 |		PWS-Zbot.gen.jr |
+NANO-Antivirus |	Trojan.Android.SMSSend.numyx  |		Trojan.Java.CVE20113544.cspflc |
 AegisLab |	Troj.Sms.Androidos!c	  |	Troj.W32.Generic!c |
-Kaspersky |	\makecell{HEUR:Trojan-SMS.AndroidOS.Fakelogo.a} |	\makecell{HEUR:Trojan.Win32.Generic} |
-ZoneAlarm |	\makecell{HEUR:Trojan-SMS.AndroidOS.Fakelogo.a} |	\makecell{HEUR:Trojan.Win32.Generic} |
+Kaspersky |	HEUR:Trojan-SMS.AndroidOS.Fakelogo.a |	HEUR:Trojan.Win32.Generic |
+ZoneAlarm |	HEUR:Trojan-SMS.AndroidOS.Fakelogo.a |	HEUR:Trojan.Win32.Generic |
 Avast |	Android:RuFraud-I	 |	Java:CVE-2011-3544-BD |
 AVG |	Android:RuFraud-I	 |	Java:CVE-2011-3544-BD |
-ESET-NOD32 |	\makecell{Android/TrojanSMS.Agent.K}  |	\makecell{a variant of Java/Exploit.CVE-2011-3544.DF} |
-McAfee |	\makecell{Artemis!9EF6966B98A5}   |	\makecell{RDN/Generic} |
+ESET-NOD32 |	Android/TrojanSMS.Agent.K  |	a variant of Java/Exploit.CVE-2011-3544.DF |
+McAfee |	Artemis!9EF6966B98A5   |	RDN/Generic |
 Avira |	ANDROID/SmsAgent.CQ.Gen  	 |	EXP/CVE-2011-3544 |
 Sophos |	Andr/Jifake-B	 |	Mal/Generic-S|
 Symantec |	Android.Fakemini	 	 |	Trojan.MalJava|
 Ikarus |	Trojan.AndroidOS.FakeInst	  |	Java.CVE|
 MAX |	Malware |	Malware |
-TrendMicro-HouseCall |	Suspicious\_GEN.F47V0322 |		Suspicious\_GEN.F47V0322 |
+TrendMicro-HouseCall |	Suspicious_GEN.F47V0322 |		Suspicious_GEN.F47V0322 |
 Emsisoft |	Android.Trojan.FakeInst.CB |		Gen:Variant.Barys.841 |
 GData |	Android.Trojan.FakeInst.CB	 |	Gen:Variant.Barys.84|
 BitDefender |	Android.Trojan.FakeInst.CB	 |	Gen:Variant.Barys.84|
